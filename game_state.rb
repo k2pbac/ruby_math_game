@@ -44,7 +44,6 @@ include Question
     end
     new_question = generate_question(@mode)
     puts "#{player[:name]}: #{new_question[:question]}"
-    p new_question[:answer]
     player_answer = gets.chomp.to_i
     if player_answer === new_question[:answer].to_i
       update_player_score(player)
@@ -67,14 +66,25 @@ include Question
 
   def remove_player_life(player)
     if player[:lives] - 1 <= 0 
+      player[:lives] -= 1
       end_game()
     else
       player[:lives] -= 1
     end
   end
 
+  def get_winner()
+    if @player_one[:lives] <= 0
+      @player_two
+    else
+      @player_one
+    end
+  end
+
   def end_game()
-    puts "Game over!"    
+    winner = self.get_winner
+    puts "Game over!"
+    puts "The winner is #{winner[:name]} with a score of #{winner[:score]}"    
     @current_game = false
   end
 
