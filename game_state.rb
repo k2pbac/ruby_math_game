@@ -7,8 +7,8 @@ include Question
   def initialize(player1, player2, mode)
     @current_game = true
     @next_player = nil
-    @player_one = {:name => player1.name, :score => 0, :lives => 3} 
-    @player_two = {:name => player2.name, :score => 0, :lives => 3}
+    @player_one = {:player => player1, :name => player1.name, :score => 0, :lives => 3} 
+    @player_two = {:player => player2, :name => player2.name, :score => 0, :lives => 3}
     @round = 0
     @mode = mode
   end
@@ -80,8 +80,12 @@ include Question
 
   def get_final_results()
     if @player_one[:lives] <= 0
+      @player_one[:player].losses += 1
+      @player_two[:player].wins += 1
       {:winner => @player_two, :loser => @player_one}
     else
+      @player_one[:player].wins += 1
+      @player_two[:player].losses += 1
       {:winner => @player_one, :loser => @player_two}
     end
   end
