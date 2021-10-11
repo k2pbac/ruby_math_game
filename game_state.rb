@@ -38,8 +38,7 @@ include Question
   def start_round(player)
     @round += 1
     if @round != 1
-      puts "P1: Score: #{@player_one[:score]}, Lives: #{@player_one[:lives]}"
-      puts "P2: Score: #{@player_two[:score]}, Lives: #{@player_two[:lives]}"
+      puts "P1: Score: #{@player_one[:score]}, Lives: #{@player_one[:lives]} | P2: Score: #{@player_two[:score]}, Lives: #{@player_two[:lives]}"
       puts "----- NEW TURN -----"
     end
     new_question = generate_question(@mode)
@@ -52,14 +51,18 @@ include Question
       puts "#{player[:name]}: Seriously? No!"
       remove_player_life(player)
     end
+    self.set_next_player(player)
+    if @current_game
+      self.start_round(@next_player)
+    end
+  end
+
+  def set_next_player(player)
     if player == @player_one
       @next_player = @player_two
     else
       @next_player = @player_one
     end 
-    if @current_game
-      self.start_round(@next_player)
-    end
   end
 
   def update_player_score(player)
@@ -75,20 +78,19 @@ include Question
     end
   end
 
-  def get_winner()
+  def get_final_results()
     if @player_one[:lives] <= 0
-      @player_two
+      {:winner => @player_two, :loser => @player_one}
     else
-      @player_one
+      {:winner => @player_one, :loser => @player_two}
     end
   end
 
   def end_game()
-    winner = self.get_winner
+    game_results = self.get_final_results
+    @@history.push(game_results)
     puts "-----GAME OVER -----"
-    puts "The winner is #{winner[:name]} with a score of #{winner[:score]}"    
+    puts "The winner is #{game_results[:winner][:name]} with a score of #{game_results[:winner][:score]}"    
     @current_game = false
   end
-
-
 end
