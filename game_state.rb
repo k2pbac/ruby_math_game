@@ -43,7 +43,6 @@ include Question
     new_question = generate_question(@mode)
     puts new_question
     puts "#{player}: #{new_question[:question]}"
-
   end
 
 end

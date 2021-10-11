@@ -7,8 +7,8 @@ module Question
      random_question = rand(2)
      easy_question = 
      [
-       {"question" => "What does #{first_num} + #{second_num} equal?", "answer" => first_num+second_num}, 
-       {"question" => "What does #{first_num} - #{second_num} equal?", "answer" => first_num-second_num}
+       {:question => "What does #{first_num} + #{second_num} equal?", :answer => first_num+second_num}, 
+       {:question => "What does #{first_num} - #{second_num} equal?", :answer => first_num-second_num}
      ]
      easy_question[random_question]
     end
