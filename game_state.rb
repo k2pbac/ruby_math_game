@@ -3,15 +3,13 @@ require './question'
 class Game
 include Question
   @@history = []
-  attr_accessor :player_one_lives, :player_two_lives, :player_one_score, :player_two_score
+  @@current_game = false
+  attr_accessor 
   def initialize(player1, player2, mode)
-    @player_one = player1 # String -> name
-    @player_two = player2
+    @@current_game = true
+    @player_one = {:name => player1, :score => 0, :lives => 3} # String -> name
+    @player_two = {:name => player2, :score => 0, :lives => 3}
     @round = 0
-    @player_one_score = 0
-    @player_two_score = 0
-    @player_one_lives = 0
-    @player_two_lives = 0
     @mode = mode
   end
 
@@ -25,10 +23,10 @@ include Question
     real_number = rand(2)
     if number === real_number
       puts "#{@player_one.name} goes first"
-      "#{@player_one.name} (player1)"
+      @player_one
     else 
       puts "#{@player_two.name} goes first"
-      "#{@player_two.name} (player2)"
+      @player_two
     end
   end
 
@@ -41,8 +39,27 @@ include Question
   def start_round(player)
     @round += 1
     new_question = generate_question(@mode)
-    puts new_question
-    puts "#{player}: #{new_question[:question]}"
+    puts "#{player.name}: #{new_question[:question]}"
+    player_answer = gets.chomp.to_i
+    if player_answer === new_question[:answer]
+      update_player_score(player)
+    else
+      remove_player_life(player)
+    end
   end
+
+
+  def update_player_score(player)
+    player[:score] += 1
+  end
+
+  def remove_player_life(player)
+    if player[:lives] - 1 <= 0 
+      end_game(player)
+    else
+      player[:lives] -= 1
+    end
+  end
+
 
 end
