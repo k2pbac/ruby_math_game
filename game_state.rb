@@ -31,7 +31,7 @@ include Question
   end
 
   def start_game()
-    player = self.starting_player()
+    player = self.starting_player
     start_round(player)
   end
 
@@ -46,8 +46,10 @@ include Question
     puts "#{player[:name]}: #{new_question[:question]}"
     player_answer = gets.chomp.to_i
     if player_answer === new_question[:answer].to_i
+      puts "#{player[:name]}: YES! You are correct!"
       update_player_score(player)
     else
+      puts "#{player[:name]}: Seriously? No!"
       remove_player_life(player)
     end
     if player == @player_one
@@ -83,7 +85,7 @@ include Question
 
   def end_game()
     winner = self.get_winner
-    puts "Game over!"
+    puts "-----GAME OVER -----"
     puts "The winner is #{winner[:name]} with a score of #{winner[:score]}"    
     @current_game = false
   end
