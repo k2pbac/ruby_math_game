@@ -22,11 +22,9 @@ include Question
     end
     real_number = rand(2)
     if number === real_number
-      puts "#{@player_one[:name]} goes first"
       @next_player = @player_two
       @player_one
     else 
-      puts "#{@player_two[:name]} goes first"
       @next_player = @player_one
       @player_two
     end
@@ -39,11 +37,16 @@ include Question
 
   def start_round(player)
     @round += 1
-    puts "Round #{@round} beginning:"
+    if @round != 1
+      puts "P1: Score: #{@player_one[:score]}, Lives: #{@player_one[:lives]}"
+      puts "P2: Score: #{@player_two[:score]}, Lives: #{@player_two[:lives]}"
+      puts "----- NEW TURN -----"
+    end
     new_question = generate_question(@mode)
     puts "#{player[:name]}: #{new_question[:question]}"
+    p new_question[:answer]
     player_answer = gets.chomp.to_i
-    if player_answer === new_question[:answer]
+    if player_answer === new_question[:answer].to_i
       update_player_score(player)
     else
       remove_player_life(player)
