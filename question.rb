@@ -1,16 +1,18 @@
 module Question
 
   def generate_question(mode)
+    syms = [:+, :-, :*, :/, :%, :**]
+    first_num = rand(25000)
+    second_num = rand(25000)
     if mode === 'Easy'
-     first_num = rand(101)
-     second_num = rand(101)
-     random_question = rand(2)
-     easy_question = 
-     [
-       {:question => "What does #{first_num} + #{second_num} equal?", :answer => first_num+second_num}, 
-       {:question => "What does #{first_num} - #{second_num} equal?", :answer => first_num-second_num}
-     ]
-     easy_question[random_question]
+      random_op = rand(0..1)
+      {:question => "What does #{first_num} #{syms[random_op]} #{second_num} equal?", :answer => first_num.send(syms[random_op], second_num)}
+    elsif mode === 'Medium'
+      random_op = rand(2..3)
+      {:question => "What does #{first_num} #{syms[random_op]} #{second_num} equal? (Round down where necessary)", :answer => first_num.send(syms[random_op], second_num)}
+    else
+      random_op = rand(4..5)
+      {:question => "What does #{first_num} #{syms[random_op]} #{second_num} equal? (Round down where necessary)", :answer => first_num.send(syms[random_op], second_num)}
     end
   end
 
